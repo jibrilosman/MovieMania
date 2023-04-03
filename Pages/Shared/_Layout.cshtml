@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MovieMania</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+ <script src="https://kit.fontawesome.com/0b63d1f56a.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        
+        <nav>
+            <div class="topnav" id="myLinks">
+                <div class="logo">
+                    <a href="">
+                     <img src="../assets/images/logo2.jpg" alt="logo">
+                </a>
+                </div>
+               
+                <div class="navbar">
+                <a href="/" class="active" title="Home">Home</a>
+                <a href="/tvshow" title="tvshow">TvShow</a>
+                <a href="/about" title="About">About</a>
+                <a href="" class="icon" onclick="myFunction()">
+                        <i class="fa fa-bars"></i>
+                </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="header-img">
+            <img src="../assets/images/headerbg4.jpg" alt="image">
+        </div>
+        
+    </header>
+
+        <main>
+            @RenderBody()
+        </main>
+
+    <footer>
+        
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/0b63d1f56a.js" crossorigin="anonymous"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

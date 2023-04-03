@@ -1,0 +1,80 @@
+@page
+@model ActorModel
+
+
+<div class="container">
+    <div class="leftSide">
+     @if(Model.fetch.actor != null){
+        string path = "https://image.tmdb.org/t/p/w500" + Model.fetch.actor.profile_path;
+                <img  class="profileImg" src="@path" alt="pic">
+                
+            
+        
+            <h1>Personal Info</h1><br>
+
+
+            <h3>Name</h3>
+            <h5>@Model.fetch.actor.name</h5><br>
+             <h3>Known For</h3>
+            <h5>@Model.fetch.actor.known_for_department</h5><br>
+            <h3>Gender</h3>
+            if(@Model.fetch.actor.gender == 1){
+
+            <h5>Female</h5><br>
+            }
+            else 
+            {
+                <h5>Male</h5><br>
+            }
+            <h3>Birthday</h3>
+            
+             @if(Model.fetch.actor.birthday != null){
+                <h5>@Model.fetch.actor.birthday (@Model.age)</h5>
+             }
+            <br>
+            
+           
+
+            @* <h3>Age</h3>
+            <h5></h5><br> *@
+@* (@Model.age  years old) *@
+             <h3>Place of Birth</h3>
+            <h5>@Model.fetch.actor.place_of_birth</h5><br>
+            <h3>Popularity</h3>
+            <h5>@Model.fetch.actor.popularity</h5><br>
+
+            <h3>Also Known As</h3>
+            @for (int i = 0; i < Model.fetch.actor.also_known_as.Count; i++){
+                
+                <h5>@Model.fetch.actor.also_known_as[i].ToString()</h5>
+            }
+            
+        
+            
+
+
+}
+    </div>
+    <div class="rightSide">
+        <h1>@Model.fetch.actor.name</h><br><br>
+
+        <h2>Biography</h2><br>
+        <p>@Model.fetch.actor.biography</p><br>
+
+    
+
+           <h3>Photos Of @Model.fetch.actor.name</h3>
+           @if(Model.fetch.imageSet != null){
+               <div class="photos">
+               @for (int i = 1; i < Model.fetch.imageSet.profiles.Count; i++)
+               {
+              string path = "https://image.tmdb.org/t/p/w500" + Model.fetch.imageSet.profiles.ElementAt(i).file_path;
+                <img class="profileImg" src="@path" alt="pics">
+               }
+           </div>
+           }
+            
+        </div>
+    </div>
+</div>
+

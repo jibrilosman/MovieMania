@@ -1,0 +1,78 @@
+﻿@page
+@model IndexModel
+<!-- begin Serach -->
+<div id="searchDiv">
+    <form id="movieSearch" method="POST" asp-page-handler="MovieSearch">
+        <input id="searchBox" type="text" name="search" placeholder="type the movie name...">
+        <input type="submit" value="find movie">
+        
+    </form>
+</div>
+<!-- end Serach -->
+
+<!-- begin SerachResults -->
+<div id="searchResults">
+    @if(Model.fetch.posterSet != null) {
+        for(int i = 0; i < Model.fetch.posterSet.results.Count; i++) {
+             string path = "https://image.tmdb.org/t/p/w500" + Model.fetch.posterSet.results.ElementAt(i).poster_path;
+            <form method="post" asp-page-handler="MovieDetails">
+                <div class="thumb" style="background: url(@path); background-size: 100%;">
+                    <input class="imageBtn" type="submit" name="movieID" value="@Model.fetch.posterSet.results.ElementAt(i).id">
+                </div>
+            </form>
+        }
+    }
+    else {
+        @if(Model.fetch.trendSet != null) {
+        for(int i = 0; i < Model.fetch.trendSet.results.Count; i++) {
+             string path = "https://image.tmdb.org/t/p/w500" + Model.fetch.trendSet.results.ElementAt(i).poster_path;
+            <form method="post" asp-page-handler="MovieDetails">
+                <div class="thumb" style="background: url(@path); background-size: 100%;">
+                    <input class="imageBtn" type="submit" name="movieID" value="@Model.fetch.trendSet.results.ElementAt(i).id">
+                </div>
+            </form>
+        }
+     } 
+  }  
+  
+   
+</div>
+
+
+<!-- begin MovieDetails -->
+@if(Model.fetch.movie != null) {
+    <div class="movieDetails" onclick="ClosePanel()">
+        <h1>@Model.fetch.movie.title</h1>
+        <h3>Budget: @Model.convertedBudget</h3> 
+        <h3>Homepage: <a href="@Model.fetch.movie.homepage" title="@Model.fetch.movie.homepage"
+         target="_blank">Officail WebSite</a></h3>
+        <h3>Release Date:  @Model.fetch.movie.release_date</h3>
+        <h3>Duration:  @Model.fetch.movie.runtime  Minutes</h3>
+        <h3>Overview:  </h3>
+        <p>@Model.fetch.movie.overview</p>
+
+@* Movie Videos *@
+@if(Model.fetch.videoSet != null) {
+    for(int i = 0; i < Model.maxVideos; i++) {
+         string youtubePath = "https://www.youtube.com/embed/" + @Model.fetch.videoSet.results[i].key;
+        <iframe class="trailer" src="@youtubePath" title="YouTube video player" 
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    }
+}
+    <div class="castDiv">
+    @for(int i = 0; i < Model.maxCast; i++){
+            string path = "https://image.tmdb.org/t/p/w500" + Model.fetch.castSet?.cast.ElementAt(i).profile_path;
+        <div class="castImg" style="background:url(@path); background-size: contain;" >
+             <span class="castName">@Model.fetch.castSet.cast.ElementAt(i).name</span>
+            <form method="POST" asp-page-handler="GetActor">
+                <input class="imageBtn" type="submit" name="actorID" value="@Model.fetch.castSet?.cast.ElementAt(i).id">
+            </form>
+        </div>
+    }
+</div>
+
+</div>
+
+}

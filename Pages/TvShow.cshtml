@@ -1,0 +1,72 @@
+@page
+@model TvShowModel
+
+
+<!-- begin Search -->
+
+<div id="searchDiv">
+    <form id="movieSearch" method="POST" asp-page-handler="TvShowSearch">
+        <input id="searchBox" type="text" name="search" placeholder="type the Tvshow name...">
+        <input type="submit" value="find TvShow">
+        
+    </form>
+</div>
+<!-- end Search -->
+
+
+
+<!-- begin SearchResult -->
+<div id="searchResults">
+    @if(Model.fetchTv.tvPosterSet != null) {
+        for(int i = 0; i < Model.fetchTv.tvPosterSet.results.Count; i++) {
+             string path = "https://image.tmdb.org/t/p/w500" + Model.fetchTv.tvPosterSet.results.ElementAt(i).backdrop_path;
+            <form method="post" asp-page-handler="MovieDetails">
+                <div class="thumb" style="background: url(@path); background-size: 100%;">
+                    <input class="imageBtn" type="submit" name="tvID" value="@Model.fetchTv.tvPosterSet.results.ElementAt(i).id">
+                </div>
+            </form>
+        }
+    }
+    else {
+        @if(Model.fetchTv.tvTrendSet != null) {
+        for(int i = 0; i < Model.fetchTv.tvTrendSet.results.Count; i++) {
+             string path = "https://image.tmdb.org/t/p/w500" + Model.fetchTv.tvTrendSet.results.ElementAt(i).poster_path;
+            <form method="post" asp-page-handler="MovieDetails">
+                <div class="thumb" style="background: url(@path); background-size: 100%;">
+                    <input class="imageBtn" type="submit" name="tvID" value="@Model.fetchTv.tvTrendSet.results.ElementAt(i).id">
+                </div>
+            </form>
+        }
+     } 
+  }    
+</div>
+<!-- end SearchResult -->
+
+<!-- ********** ************* ********** -->
+<!-- ********** ************* ********** -->
+
+
+@if(Model.fetchTv.tvShow != null) {
+
+    <div id="mainTrailer">
+        
+    </div>
+    <div class="movieDetails" onclick="ClosePanel()">
+        <h1>@Model.fetchTv.tvShow.name</h1> 
+        <h3>Homepage: <a href="@Model.fetchTv.tvShow.homepage" title="@Model.fetchTv.tvShow.homepage"
+         target="_blank">Officail WebSite</a></h3><br>
+        <p><strong>Original Name: </strong>@Model.fetchTv.tvShow.original_name</p>        
+        <p><strong>Original Language: </strong>@Model.fetchTv.tvShow.original_language.ToUpper()</p>
+        <p><strong>Number Of Episodes: </strong>@Model.fetchTv.tvShow.number_of_episodes</p>  
+        <p><strong>Number Of Seasons: </strong>@Model.fetchTv.tvShow.number_of_seasons</p>  
+
+        <p><strong>Popularaty: </strong>@Model.fetchTv.tvShow.popularity</p> 
+        <p><strong>Tagline: </strong>@Model.fetchTv.tvShow.tagline</p>
+        <p><strong>Average vote: </strong>@Model.fetchTv.tvShow.vote_average</p>               
+        <p><strong>Vote count: </strong>@Model.fetchTv.tvShow.vote_count</p>               
+        <p><strong>Status: </strong>@Model.fetchTv.tvShow.status</p> <br>
+
+        <h2>Overview</h2>  
+        <p>@Model.fetchTv.tvShow.overview</p>  <br>   
+    </div>
+}    
